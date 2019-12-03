@@ -1,4 +1,4 @@
-#Terminal project
+# Terminal project
 
 To install and run, in your terminal do:
 
