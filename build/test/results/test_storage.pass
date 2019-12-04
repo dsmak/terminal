@@ -1,0 +1,22 @@
+---
+:source:
+  :path: test
+  :file: test_storage.c
+:successes:
+- :test: test_storage_should_ReturnError
+  :line: 18
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores:
+- :test: test_storage_NeedToImplement
+  :line: 15
+  :message: Need to Implement storage
+  :unity_test_time: 0
+:counts:
+  :total: 2
+  :passed: 1
+  :failed: 0
+  :ignored: 1
+:stdout: []
+:time: 0.0013529010029742494
