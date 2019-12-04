@@ -30,6 +30,12 @@ To connect new device to the system, use POST request
 ```
 The server will accept json file, attach the available ID and respond with updated information back to the terminal.
 
+Tests (in process)
+
+[Ceedling](http://www.throwtheswitch.org/ceedling) is used for tests.
+To install Ceedling please refer to the documentation the link above.
+To run tests type ```ceedling test:all``` in your cli.
+
 Resources:
 [GNU libmicrohttpd Tutorial](https://www.gnu.org/software/libmicrohttpd/tutorial.html).
 [GNU microhttpd Documentation](https://www.gnu.org/software/libmicrohttpd/)
