@@ -3,3 +3,11 @@
 - TEST
 src/storage.c:
 - TEST
+src/json_processor.c:
+- TEST
+libs/Unity/src/unity.c:
+- TEST
+build/test/mocks/mock_json_processor.c:
+- TEST
+build/test/mocks/mock_storage.c:
+- TEST

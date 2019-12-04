@@ -1,4 +1,2 @@
-build/test/out/c/unity.o: \
- /var/lib/gems/2.3.0/gems/ceedling-0.29.1/vendor/unity/src/unity.c \
- /var/lib/gems/2.3.0/gems/ceedling-0.29.1/vendor/unity/src/unity.h \
- /var/lib/gems/2.3.0/gems/ceedling-0.29.1/vendor/unity/src/unity_internals.h
+build/test/out/c/unity.o: libs/Unity/src/unity.c libs/Unity/src/unity.h \
+ libs/Unity/src/unity_internals.h

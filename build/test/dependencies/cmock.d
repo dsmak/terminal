@@ -1,6 +1,3 @@
-build/test/out/c/cmock.o: \
- /var/lib/gems/2.3.0/gems/ceedling-0.29.1/vendor/cmock/src/cmock.c \
- /var/lib/gems/2.3.0/gems/ceedling-0.29.1/vendor/cmock/src/cmock.h \
- /var/lib/gems/2.3.0/gems/ceedling-0.29.1/vendor/cmock/src/cmock_internals.h \
- /var/lib/gems/2.3.0/gems/ceedling-0.29.1/vendor/unity/src/unity.h \
- /var/lib/gems/2.3.0/gems/ceedling-0.29.1/vendor/unity/src/unity_internals.h
+build/test/out/c/cmock.o: libs/CMock/src/cmock.c libs/CMock/src/cmock.h \
+ libs/CMock/src/cmock_internals.h libs/Unity/src/unity.h \
+ libs/Unity/src/unity_internals.h

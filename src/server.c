@@ -170,8 +170,10 @@ static int answer_to_connection (void *cls, struct MHD_Connection *connection,
 	else if (NULL != con_info->answer_string)
 	{
 	// assign ID here
-        con_info->answer_string = attach_id(con_info->answer_string);
-        printf("\n%s\n\n\n\n\n\n\n\n", con_info->answer_string);
+        int uid = get_available_id(); // gets available ID, from "storage.h"
+	char* details_with_id = attach_id(con_info->answer_string, uid); // attaches ID, from "json_processor.h"
+        con_info->answer_string = details_with_id; // saving new details for response
+        printf("\n%s\n", con_info->answer_string);
 	send_details(connection, con_info->answer_string);
 	}
 

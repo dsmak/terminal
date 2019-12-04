@@ -34,6 +34,9 @@
     - -:test/support
   :source:
     - src/**
+    - libs/json-c/**
+    - libs/Unity/src/**
+    - libs/CMock/src/**
   :support:
     - test/support
 
@@ -77,6 +80,25 @@
 # Ceedling defaults to using gcc for compiling, linking, etc.
 # As [:tools] is blank, gcc will be used (so long as it's in your system path)
 # See documentation to configure a given toolchain for use
+:tools:
+#  :test_compiler:
+#    :executable: gcc
+#    :arguments:
+#      - ${1}
+#      - -Isrc/
+#      - -Ilibs/Unity/src
+#      - -Ilibs/CMock/src
+#      - -Ilibs/json-c
+#      - -Ibuild/test/mocks/
+#      - -ljson-c
+  :test_linker:
+    :executable: gcc                  #absolute file path
+    :arguments:
+      - ${1}                          #list of object files to link (Ruby method call param list sub)
+      - -o ${2} 
+      - -Ilibs/Unity/src
+#      - -libs/CMock/src
+      - -ljson-c
 
 # LIBRARIES
 # These libraries are automatically injected into the build process. Those specified as
@@ -84,7 +106,9 @@
 # tests or releases. These options are MERGED with the options in supplemental yaml files.
 :libraries:
   :placement: :end
-  :flag: "${1}"  # or "-L ${1}" for example
+  :flag: 
+    - "${1}"
+    - ljson-c
   :test: []
   :release: []
 

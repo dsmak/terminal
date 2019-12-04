@@ -24,6 +24,9 @@
   - "-:test/support"
   :source:
   - src/**
+  - libs/json-c/**
+  - libs/Unity/src/**
+  - libs/CMock/src/**
   :support:
   - test/support
   :include: []
@@ -54,7 +57,9 @@
   :release: []
   :release_preprocess: []
   :placement: :end
-  :flag: "${1}"
+  :flag:
+  - "${1}"
+  - ljson-c
 :flags: {}
 :extension:
   :header: ".h"
@@ -96,6 +101,17 @@
   :includes: []
   :file_suffix: _runner
 :tools:
+  :test_linker:
+    :executable: gcc
+    :arguments:
+    - "${1}"
+    - "-o ${2}"
+    - "-Ilibs/Unity/src"
+    - "-ljson-c"
+    :name: test_linker
+    :stderr_redirect: :none
+    :background_exec: :none
+    :optional: false
   :test_compiler:
     :executable: gcc
     :name: default_test_compiler
@@ -119,17 +135,6 @@
     :background_exec: :none
     :optional: false
     :arguments: []
-  :test_linker:
-    :executable: gcc
-    :name: default_test_linker
-    :stderr_redirect: :none
-    :background_exec: :none
-    :optional: false
-    :arguments:
-    - '"${1}"'
-    - -o "${2}"
-    - ''
-    - "${4}"
   :test_file_preprocessor:
     :executable: gcc
     :name: default_test_file_preprocessor
