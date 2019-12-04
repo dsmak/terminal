@@ -22,7 +22,7 @@ int add_device(int uid, char* details)
 
 char* get_device_details(int uid)
 {
-  if (0 > uid || tail + 1 < uid )
+  if (0 > uid && tail + 1 < uid )
   {
     return "Invalid request!\n";
   }

@@ -3,21 +3,24 @@
   :path: test
   :file: test_storage.c
 :successes:
-- :test: test_storage_should_ReturnError
+- :test: test_storage_list_devices_should_ReturnError
   :line: 15
   :message: ''
   :unity_test_time: 0
 :failures:
+- :test: test_storage_get_device_details_should_ReturnError
+  :line: 23
+  :message: Expected 'Invalid request!\n' Was ''
+  :unity_test_time: 0
 - :test: test_storage_should_ReturnOne
-  :line: 28
+  :line: 33
   :message: Expected '1' Was 'List is empty'
   :unity_test_time: 0
 :ignores: []
 :counts:
-  :total: 2
+  :total: 3
   :passed: 1
-  :failed: 1
+  :failed: 2
   :ignored: 0
-:stdout:
-- 'WHAT - 0 '
-:time: 0.002014357000007294
+:stdout: []
+:time: 0.0014118800027063116

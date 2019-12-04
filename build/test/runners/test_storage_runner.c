@@ -10,7 +10,8 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_storage_should_ReturnError(void);
+extern void test_storage_list_devices_should_ReturnError(void);
+extern void test_storage_get_device_details_should_ReturnError(void);
 extern void test_storage_should_ReturnOne(void);
 
 
@@ -78,8 +79,9 @@ static void run_test(UnityTestFunction func, const char* name, int line_num)
 int main(void)
 {
   UnityBegin("test_storage.c");
-  run_test(test_storage_should_ReturnError, "test_storage_should_ReturnError", 15);
-  run_test(test_storage_should_ReturnOne, "test_storage_should_ReturnOne", 21);
+  run_test(test_storage_list_devices_should_ReturnError, "test_storage_list_devices_should_ReturnError", 15);
+  run_test(test_storage_get_device_details_should_ReturnError, "test_storage_get_device_details_should_ReturnError", 21);
+  run_test(test_storage_should_ReturnOne, "test_storage_should_ReturnOne", 26);
 
   return UnityEnd();
 }
