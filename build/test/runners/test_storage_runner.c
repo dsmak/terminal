@@ -10,10 +10,12 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_storage_list_devices_should_ReturnError(void);
-extern void test_storage_get_device_details_should_ReturnError(void);
-extern void test_storage_should_ReturnOne(void);
 extern void test_storage_get_available_id(void);
+extern void test_storage_add_device(void);
+extern void test_storage_list_devices_should_ReturnError(void);
+extern void test_storage_should_ReturnOne(void);
+extern void test_storage_list_devices_One_and_Many(void);
+extern void test_storage_get_device_details_should_ReturnError(void);
 
 
 /*=======Mock Management=====*/
@@ -80,10 +82,12 @@ static void run_test(UnityTestFunction func, const char* name, int line_num)
 int main(void)
 {
   UnityBegin("test_storage.c");
-  run_test(test_storage_list_devices_should_ReturnError, "test_storage_list_devices_should_ReturnError", 43);
-  run_test(test_storage_get_device_details_should_ReturnError, "test_storage_get_device_details_should_ReturnError", 49);
-  run_test(test_storage_should_ReturnOne, "test_storage_should_ReturnOne", 56);
-  run_test(test_storage_get_available_id, "test_storage_get_available_id", 67);
+  run_test(test_storage_get_available_id, "test_storage_get_available_id", 43);
+  run_test(test_storage_add_device, "test_storage_add_device", 53);
+  run_test(test_storage_list_devices_should_ReturnError, "test_storage_list_devices_should_ReturnError", 63);
+  run_test(test_storage_should_ReturnOne, "test_storage_should_ReturnOne", 69);
+  run_test(test_storage_list_devices_One_and_Many, "test_storage_list_devices_One_and_Many", 80);
+  run_test(test_storage_get_device_details_should_ReturnError, "test_storage_get_device_details_should_ReturnError", 95);
 
   return UnityEnd();
 }

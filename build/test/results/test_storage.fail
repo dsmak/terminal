@@ -3,34 +3,70 @@
   :path: test
   :file: test_storage.c
 :successes:
-- :test: test_storage_list_devices_should_ReturnError
+- :test: test_storage_get_available_id
   :line: 43
   :message: ''
   :unity_test_time: 0
-- :test: test_storage_get_available_id
-  :line: 67
-  :message: ''
-  :unity_test_time: 0
 :failures:
-- :test: test_storage_get_device_details_should_ReturnError
-  :line: 51
-  :message: Expected 'Invalid request!\n' Was ''
+- :test: test_storage_add_device
+  :line: 59
+  :message: Expected 1 Was 0
+  :unity_test_time: 0
+- :test: test_storage_list_devices_should_ReturnError
+  :line: 65
+  :message: Expected 'List is empty' Was '0\n0\n0\n0\n5\n'
   :unity_test_time: 0
 - :test: test_storage_should_ReturnOne
-  :line: 64
-  :message: Expected '1' Was ''
+  :line: 77
+  :message: Expected '1' Was '0\n0\n0\n0\n5\n'
+  :unity_test_time: 0
+- :test: test_storage_list_devices_One_and_Many
+  :line: 85
+  :message: Expected '1\n' Was '0\n0\n0\n0\n5\n0\n'
+  :unity_test_time: 0
+- :test: test_storage_get_device_details_should_ReturnError
+  :line: 97
+  :message: Expected 'Invalid request!\n' Was ''
   :unity_test_time: 0
 :ignores: []
 :counts:
-  :total: 4
-  :passed: 2
-  :failed: 2
+  :total: 6
+  :passed: 1
+  :failed: 5
   :ignored: 0
 :stdout:
 - devices.uid[0] at 0x605120
 - devices.uid[0] at 0x605120
 - devices.uid[0] at 0x605120
-- 'Devices first uid: 1 at 0x605120'
-- 'Output: '
+- 'Test: 0'
+- 'Test: 0'
+- 'Test: 0'
+- 'Test: 0'
+- 'Test: 5'
 - devices.uid[0] at 0x605120
-:time: 0.002499550000038653
+- 'Devices first uid: 1 at 0x605120'
+- 'Test: 0'
+- 'Test: 0'
+- 'Test: 0'
+- 'Test: 0'
+- 'Test: 5'
+- 'Output: 0'
+- '0'
+- '0'
+- '0'
+- '5'
+- ''
+- 'Test: 0'
+- 'Test: 0'
+- 'Test: 0'
+- 'Test: 0'
+- 'Test: 5'
+- devices.uid[0] at 0x605120
+- 'Test: 0'
+- 'Test: 0'
+- 'Test: 0'
+- 'Test: 0'
+- 'Test: 5'
+- 'Test: 0'
+- devices.uid[0] at 0x605120
+:time: 0.004489767000450229

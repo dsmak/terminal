@@ -39,45 +39,79 @@ void tearDown(void)
 
 
 
-void test_storage_list_devices_should_ReturnError(void)
+void test_storage_get_available_id(void)
 
 {
 
+    tail = 0;
 
+    UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((get_available_id())), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(46), UNITY_DISPLAY_STYLE_INT);
+
+    UnityAssertEqualNumber((UNITY_INT)((2)), (UNITY_INT)((get_available_id())), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(47), UNITY_DISPLAY_STYLE_INT);
+
+    UnityAssertEqualNumber((UNITY_INT)((3)), (UNITY_INT)((get_available_id())), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(48), UNITY_DISPLAY_STYLE_INT);
+
+    UnityAssertEqualNumber((UNITY_INT)((4)), (UNITY_INT)((get_available_id())), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(49), UNITY_DISPLAY_STYLE_INT);
+
+}
+
+
+
+
+
+void test_storage_add_device(void)
+
+{
+
+  tail = 0;
+
+  int uid = get_available_id();
+
+  char *test = "test";
+
+  add_device(uid, test);
+
+  UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((devices.uid[0])), (
+
+ ((void *)0)
+
+ ), (UNITY_UINT)(59), UNITY_DISPLAY_STYLE_INT);
+
+}
+
+
+
+
+
+void test_storage_list_devices_should_ReturnError(void)
+
+{
 
      UnityAssertEqualString((const char*)(("List is empty")), (const char*)((list_available_devices())), (
 
     ((void *)0)
 
-    ), (UNITY_UINT)(46));
+    ), (UNITY_UINT)(65));
 
 }
 
 
-
-void test_storage_get_device_details_should_ReturnError(void)
-
-{
-
-    UnityAssertEqualString((const char*)(("Invalid request!\n")), (const char*)((get_device_details(-1))), (
-
-   ((void *)0)
-
-   ), (UNITY_UINT)(51));
-
-    UnityAssertEqualString((const char*)(("Invalid request!\n")), (const char*)((get_device_details(0))), (
-
-   ((void *)0)
-
-   ), (UNITY_UINT)(52));
-
-    UnityAssertEqualString((const char*)(("Invalid request!\n")), (const char*)((get_device_details(1000))), (
-
-   ((void *)0)
-
-   ), (UNITY_UINT)(53));
-
-}
 
 
 
@@ -101,40 +135,70 @@ void test_storage_should_ReturnOne(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(64));
+   ), (UNITY_UINT)(77));
 
 }
 
 
 
-void test_storage_get_available_id(void)
+void test_storage_list_devices_One_and_Many(void)
 
 {
 
-    tail = 0;
+  devices.uid[0] = get_available_id();
 
-    UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((get_available_id())), (
+  devices.details[0];
+
+  strncpy(devices.details[0], test_string, strlen(test_string));
+
+  UnityAssertEqualString((const char*)(("1\n")), (const char*)((list_available_devices())), (
+
+ ((void *)0)
+
+ ), (UNITY_UINT)(85));
+
+  for(int i = 1; i < 6; i++)
+
+  {
+
+    devices.uid[i] = get_available_id();
+
+    strncpy(devices.details[i], test_string, strlen(test_string));
+
+  }
+
+  UnityAssertEqualString((const char*)(("1\n2\n3\n4\n5\n6\n")), (const char*)((list_available_devices())), (
+
+ ((void *)0)
+
+ ), (UNITY_UINT)(91));
+
+}
+
+
+
+
+
+void test_storage_get_device_details_should_ReturnError(void)
+
+{
+
+    UnityAssertEqualString((const char*)(("Invalid request!\n")), (const char*)((get_device_details(-1))), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(70), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(97));
 
-    UnityAssertEqualNumber((UNITY_INT)((2)), (UNITY_INT)((get_available_id())), (
-
-   ((void *)0)
-
-   ), (UNITY_UINT)(71), UNITY_DISPLAY_STYLE_INT);
-
-    UnityAssertEqualNumber((UNITY_INT)((3)), (UNITY_INT)((get_available_id())), (
+    UnityAssertEqualString((const char*)(("Invalid request!\n")), (const char*)((get_device_details(0))), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(72), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(98));
 
-    UnityAssertEqualNumber((UNITY_INT)((4)), (UNITY_INT)((get_available_id())), (
+    UnityAssertEqualString((const char*)(("Invalid request!\n")), (const char*)((get_device_details(512 + 1))), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(73), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(99));
 
 }
