@@ -25,10 +25,19 @@ get_available_id
 */
 void setUp(void)
 {
+   // set up empty storage
+   printf("devices.uid[0] at %p\n", &devices.uid[0]);
+   memset(devices.uid, 0, STORAGE_SIZE);
+   for(int i = 0; i < STORAGE_SIZE; i++)
+   {
+     memset(devices.details[i], '\0', MAX_JSON_SIZE);
+   }
+   tail = 0;
 }
 
 void tearDown(void)
 {
+   tail = 0;
 }
 
 void test_storage_list_devices_should_ReturnError(void)
@@ -39,17 +48,27 @@ void test_storage_list_devices_should_ReturnError(void)
 
 void test_storage_get_device_details_should_ReturnError(void)
 {
-    TEST_ASSERT_EQUAL_STRING("Invalid request!\n", get_device_details(1));
+    TEST_ASSERT_EQUAL_STRING("Invalid request!\n", get_device_details(-1));
+    TEST_ASSERT_EQUAL_STRING("Invalid request!\n", get_device_details(0));
+    TEST_ASSERT_EQUAL_STRING("Invalid request!\n", get_device_details(1000));
 }
 
 void test_storage_should_ReturnOne(void)
 {
-    // add device to the structure
-    devices.uid[1] = 1;
-    memset(devices.details[1], '\0', sizeof(devices.details[0]));
-    strncpy(devices.details[1], test_string, strlen(test_string));
-    tail=2;
-    TEST_ASSERT_EQUAL_STRING("1", list_available_devices());
+    tail = 1;
+    devices.uid[0] = 1;
+    printf("Devices first uid: %d at %p\n", devices.uid[0], &devices.uid[0]);
+    strncpy(devices.details[0], test_string, strlen(test_string)); 
+    char *output = get_string();
+    printf("Output: %s\n", output);
+    TEST_ASSERT_EQUAL_STRING("1", get_string());
 }
 
-
+void test_storage_get_available_id(void)
+{
+    tail = 0; // ID must be tail + 1;
+    TEST_ASSERT_EQUAL_INT(1, get_available_id());    
+    TEST_ASSERT_EQUAL_INT(2, get_available_id());    
+    TEST_ASSERT_EQUAL_INT(3, get_available_id());    
+    TEST_ASSERT_EQUAL_INT(4, get_available_id());    
+}
