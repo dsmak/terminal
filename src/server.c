@@ -129,9 +129,11 @@ static int answer_to_connection (void *cls, struct MHD_Connection *connection,
         
         if(0 == terminal_id)
         {
-            // Retrieve all devices
-            // if device list is empty return message
-            terminal_id = send_details(connection, list_available_devices());
+	    char* ad = malloc(MAX_ANSWER_SIZE);
+            memset(ad,'\0', sizeof(ad));
+            strcpy(ad,list_available_devices());
+            //printf("Server: %s\n", ad);
+            terminal_id = send_details(connection, ad);
         }
         else if (0 < terminal_id)
         {
@@ -140,7 +142,7 @@ static int answer_to_connection (void *cls, struct MHD_Connection *connection,
             {
                 // Perform checks here
 		char* details;
-        details = get_device_details(terminal_id);
+                details = get_device_details(terminal_id);
 		//sprintf(details,"Terminal N%d details\n", terminal_id);
                 terminal_id = send_details(connection, details);
             } else
@@ -172,6 +174,7 @@ static int answer_to_connection (void *cls, struct MHD_Connection *connection,
 	// assign ID here
         int uid = get_available_id(); // gets available ID, from "storage.h"
 	char* details_with_id = attach_id(con_info->answer_string, uid); // attaches ID, from "json_processor.h"
+        add_device(uid, details_with_id);  // adds device to the storage
         con_info->answer_string = details_with_id; // saving new details for response
         printf("\n%s\n", con_info->answer_string);
 	send_details(connection, con_info->answer_string);

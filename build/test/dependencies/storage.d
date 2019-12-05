@@ -1,1 +1,1 @@
-build/test/out/c/storage.o: src/storage.c src/global.h src/storage.h
+build/test/out/c/storage.o: src/storage.c src/storage.h src/global.h

@@ -30,13 +30,18 @@ To connect new device to the system, use POST request
 ```
 The server will accept json file, attach the available ID and respond with updated information back to the terminal.
 
-Tests (in process)
+Tests
 
 [Ceedling](http://www.throwtheswitch.org/ceedling) is used for tests.
 To install Ceedling please refer to the documentation the link above.
-To run tests type ```ceedling test:all``` in your cli.
+To run tests type ```ceedling test:storage``` and  ```ceedling test:json_processor``` in your cli.
+Please note that storage tests has to be run sequentially due to shared resources.
+Comment and uncomment TEST_IGNORE_MESSAGE when required.
 
 Resources:
-[GNU libmicrohttpd Tutorial](https://www.gnu.org/software/libmicrohttpd/tutorial.html).
-[GNU microhttpd Documentation](https://www.gnu.org/software/libmicrohttpd/)
-[JSON-C](https://github.com/json-c/json-c/wiki)
+[GNU libmicrohttpd Tutorial](https://www.gnu.org/software/libmicrohttpd/tutorial.html)\
+[GNU microhttpd Documentation](https://www.gnu.org/software/libmicrohttpd/)\
+[JSON-C](https://github.com/json-c/json-c/wiki)\
+[Ceedling](https://github.com/ThrowTheSwitch/Ceedling)\
+[Add unit tests to your current project with Ceedling](http://www.electronvector.com/blog/add-unit-tests-to-your-current-project-with-ceedling)\
+[Unity](https://github.com/ThrowTheSwitch/Unity)\
