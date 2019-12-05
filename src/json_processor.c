@@ -7,6 +7,11 @@ char * attach_id(char* new_device_details, int uid)
   struct json_object *parsed_json;
   // parsing json string to json-c
   parsed_json = json_tokener_parse(new_device_details);
+  //validating input
+  if(NULL == parsed_json)
+  {
+    return NULL;
+  }
   // adding id
   json_object_object_add(parsed_json, "UID", json_object_new_int(uid));
   // saves new json with id to the device details
