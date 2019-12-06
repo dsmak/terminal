@@ -32,7 +32,8 @@ Tests
 
 [Ceedling](http://www.throwtheswitch.org/ceedling) is used for tests.
 To install Ceedling please refer to the documentation the link below.
-To run tests type ```ceedling test:storage``` and  ```ceedling test:json_processor``` in your cli.
+To run tests type ```ceedling test:storage``` and  ```ceedling test:json_processor``` in your cli,
+or  ```ceedling test:all``` to run all.
 Please note that storage tests has to be run sequentially due to shared resources.
 Comment and uncomment TEST_IGNORE_MESSAGE when required.
 
