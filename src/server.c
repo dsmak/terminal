@@ -91,7 +91,7 @@ static int answer_to_connection (void *cls, struct MHD_Connection *connection,
         // if new request is POST, create postprocessor
         if (0 == strcmp (method, "POST"))
         {
-	    printf("%s\n", "Received POST request");
+	    //printf("%s\n", "Received POST request");
             
 	    if (!strncasecmp(url, REST_API_CALL, REST_API_LENGTH))
             {
@@ -119,7 +119,7 @@ static int answer_to_connection (void *cls, struct MHD_Connection *connection,
     if (0 == strcmp (method, "GET"))
     {
 
-	printf("%s\n", "Received GET request");
+	//printf("%s\n", "Received GET request");
         // Terminal id can not be less than 1, therefore if terminal_id = 0
         // Then output is the list of available devices
         // Not good from security point of view, but easy and intuitive 
@@ -129,22 +129,31 @@ static int answer_to_connection (void *cls, struct MHD_Connection *connection,
         
         if(0 == terminal_id)
         {
-	    char* ad = malloc(MAX_ANSWER_SIZE);
-            memset(ad,'\0', sizeof(ad));
-            strcpy(ad,list_available_devices());
-            //printf("Server: %s\n", ad);
-            terminal_id = send_details(connection, ad);
+            char* list = malloc(MAX_ANSWER_SIZE);
+            memset(list,'\0', sizeof(list));
+            pthread_attr_init(&attr);
+            pthread_create(&tid_list, &attr, list_available_devices, list);
+            pthread_join(tid_list, NULL);
+            printf("Server: %s\n", list);
+            terminal_id = send_details(connection, list);
         }
         else if (0 < terminal_id)
         {
             terminal_id = atoi(url+(REST_API_LENGTH)+1);
             if(0 != terminal_id)
             {
-                // Perform checks here
-		char* details;
-                details = get_device_details(terminal_id);
-		//sprintf(details,"Terminal N%d details\n", terminal_id);
-                terminal_id = send_details(connection, details);
+                // get device details
+		struct args* msg = malloc(sizeof(struct args));
+		msg->uid = terminal_id;
+                memset(msg->details, '\0', MAX_ANSWER_SIZE);
+
+                pthread_create(&tid_get, NULL, get_device_details,(void*)msg);
+                pthread_join(tid_get, NULL);
+                
+		//printf("Server: %d details:\n %s\n", msg->uid, ((struct args*)msg)->details);
+
+                terminal_id = send_details(connection,((struct args*)msg)->details);
+		free(msg);
             } else
             {
                 return MHD_NO;
@@ -172,15 +181,30 @@ static int answer_to_connection (void *cls, struct MHD_Connection *connection,
 	else if (NULL != con_info->answer_string)
 	{
 	// assign ID here
-        int uid = get_available_id(); // gets available ID, from "storage.h"
-	char* details_with_id = attach_id(con_info->answer_string, uid); // attaches ID, from "json_processor.h"
-        add_device(uid, details_with_id);  // adds device to the storage
-        con_info->answer_string = details_with_id; // saving new details for response
-        printf("\n%s\n", con_info->answer_string);
-	send_details(connection, con_info->answer_string);
-	}
+        int uid = 0;
 
-       }
+        pthread_attr_init(&attr);
+        pthread_create(&tid_id, &attr, get_available_id, &uid); // gets available ID, from "storage.h"
+        pthread_join(tid_id, NULL);
+        printf("%s %d\n", "Server: new id is: ", uid);
+	char* details_with_id = attach_id(con_info->answer_string, uid); // attaches ID, from "json_processor.h"
+        // get device details
+	struct args *msg = (struct args *)malloc(sizeof(struct args));
+        msg->uid = uid;
+        strcpy(msg->details, details_with_id);
+        // adds device to the storage
+        pthread_attr_init(&attr);
+        pthread_create(&tid_add, &attr, add_device, (void*)msg);
+        pthread_join(tid_add, NULL);
+
+	con_info->answer_string = details_with_id; // saving new details for response
+        printf("Server: \n%s\n", con_info->answer_string);
+	send_details(connection, con_info->answer_string);
+        free(msg);
+
+        }
+
+      }
 
     }
 }

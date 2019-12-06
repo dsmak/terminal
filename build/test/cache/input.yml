@@ -107,6 +107,7 @@
     - "${1}"
     - "-o ${2}"
     - "-Ilibs/Unity/src"
+    - "-lpthread"
     - "-ljson-c"
     :name: test_linker
     :stderr_redirect: :none

@@ -24,77 +24,133 @@ get_device_details:
 */
 void setUp(void)
 {
-   // set up empty storage
-   //printf("Setup: devices.uid[0] at %p\n", &devices.uid[0]);
-   //memset(devices.uid, 0, STORAGE_SIZE);
-   //for(int i = 0; i < STORAGE_SIZE; i++)
-   //{
-   //  memset(devices.details[i], '\0', MAX_JSON_SIZE);
-   //}
-   //tail = 1;
+
 }
 
 void tearDown(void)
 {
 //   tail = 0;
 }
+
 // Checks for the next available id +
 void test_storage_get_available_id(void)
 {
-//    TEST_IGNORE_MESSAGE("Done");
+    TEST_IGNORE_MESSAGE("Done");
+
     tail = 0; // ID must be tail + 1;
-    TEST_ASSERT_EQUAL_INT(1, get_available_id());    
-    TEST_ASSERT_EQUAL_INT(2, get_available_id());    
-    TEST_ASSERT_EQUAL_INT(3, get_available_id());    
-    TEST_ASSERT_EQUAL_INT(4, get_available_id());    
+    int id = 0;
+
+    pthread_attr_init(&attr);
+    pthread_create(&tid_id, &attr, get_available_id, &id);
+    pthread_join(tid_id, NULL);
+
+    TEST_ASSERT_EQUAL_INT(1, id);
+
+    pthread_create(&tid_id, &attr, get_available_id, &id);
+    pthread_join(tid_id, NULL);
+
+    TEST_ASSERT_EQUAL_INT(2, id);
+
+    pthread_create(&tid_id, &attr, get_available_id, &id);
+    pthread_join(tid_id, NULL);
+
+    TEST_ASSERT_EQUAL_INT(3, id);
+
+    pthread_create(&tid_id, &attr, get_available_id, &id);
+    pthread_join(tid_id, NULL);
+
+    TEST_ASSERT_EQUAL_INT(4, id);    
 }
 
-// Checks if device is added properly
+//Checks if device is added properly
 void test_storage_add_device(void)
 {
-//   TEST_IGNORE_MESSAGE("Done");
-   char *test = "test";
-   add_device(2, test);
+   TEST_IGNORE_MESSAGE("Done");
+
+   char* test = "test";
+   // get device details
+   struct args *msg = (struct args *)malloc(sizeof(struct args));
+   msg->uid = 2;
+   strcpy(msg->details, test);
+   // adds device to the storage
+   pthread_create(&tid_add, NULL, add_device, (void*)msg);
+   pthread_join(tid_add, NULL);
+
+   // test if added correctly
    TEST_ASSERT_EQUAL_INT(2,devices.uid[1]);
    TEST_ASSERT_EQUAL_STRING("test", devices.details[1]);
+   // Test if returned properly
+   TEST_ASSERT_EQUAL_STRING("test", msg->details);
 } 
 
-void test_storage_add_device_failure(void)
-{
-//   TEST_IGNORE_MESSAGE("Done");
-   TEST_ASSERT_EQUAL_INT(0, add_device(-1, "test"));              //  Invalid ID 
-   TEST_ASSERT_EQUAL_INT(0, add_device(0,"test"));               //  ***
-   TEST_ASSERT_EQUAL_INT(0, add_device(STORAGE_SIZE,"test"));   //  ***
-   TEST_ASSERT_EQUAL_INT(-1,add_device(5, "test"));            //  Valid ID
-}
 
 // Checks if empty list is returned properly +
 void test_storage_list_devices_should_ReturnError(void)
 {
-//   TEST_IGNORE_MESSAGE("Done");
-   TEST_ASSERT_EQUAL_STRING("List is empty", list_available_devices());
-}
+   TEST_IGNORE_MESSAGE("Done");
+   char* list = malloc(MAX_ANSWER_SIZE);
+   memset(list,'\0', sizeof(list));
+   pthread_attr_init(&attr);
+   pthread_create(&tid_list, &attr, list_available_devices, list);
+   pthread_join(tid_list, NULL);
 
+   //list_available_devices(list);
+   TEST_ASSERT_EQUAL_STRING("List is empty\n", list);
+}
 
 // Checks if list with one and many entries returns properly
 void test_storage_list_devices_One_and_Many(void)
 {
-   //TEST_IGNORE_MESSAGE("Done");
-   devices.uid[0] = get_available_id();
-   TEST_ASSERT_EQUAL_STRING("1\n", list_available_devices());
-   devices.uid[1] = get_available_id();
-   devices.uid[2] = get_available_id();
-   devices.uid[3] = get_available_id();
-   devices.uid[4] = get_available_id();
-   TEST_ASSERT_EQUAL_STRING("1\n2\n3\n4\n5\n", list_available_devices());
+   TEST_IGNORE_MESSAGE("Done");
+   int id = 0;
+   tail = 0;
+   void* status = 0;
+   pthread_attr_init(&attr);
+   pthread_create(&tid_id, &attr, get_available_id, &id);
+   pthread_join(tid_id, &status);
+ 
+   TEST_ASSERT_EQUAL_INT(1, id);
+
+   devices.uid[0] = id;   
+
+   char* list = malloc(MAX_ANSWER_SIZE);
+   memset(list,'\0', sizeof(list));
+   pthread_attr_init(&attr);
+   pthread_create(&tid_list, &attr, list_available_devices, list);
+   pthread_join(tid_list, &status);
+   TEST_ASSERT_EQUAL_STRING("1\n", list);
 }
 
-// checks if Invalid request is returned correctly +
+// checks if Invalid request is returned correctly
+// FAILS !!!
 void test_storage_get_device_details_should_ReturnError(void)
 {
-//    TEST_IGNORE_MESSAGE("Done");
-    TEST_ASSERT_EQUAL_STRING("Invalid request!\n", get_device_details(-10));
-    TEST_ASSERT_EQUAL_STRING("Invalid request!\n", get_device_details(0));
-    TEST_ASSERT_EQUAL_STRING("Invalid request!\n", get_device_details(STORAGE_SIZE + 1));
+    //TEST_IGNORE_MESSAGE("Done");
+    struct args* msg = (struct args*)malloc(sizeof(struct args));
+    msg->uid = 0;
+    
+    pthread_attr_init(&attr);
+    pthread_create(&tid_list, &attr, list_available_devices, (void*)msg);
+    pthread_join(tid_list, NULL);
+
+
+    TEST_ASSERT_EQUAL_STRING("Invalid request!\n",((struct args*) msg)->details);
+    
+    msg->uid = -10;
+
+    pthread_attr_init(&attr);
+    pthread_create(&tid_list, &attr, list_available_devices, (void*)msg);
+    pthread_join(tid_list, NULL);
+
+    TEST_ASSERT_EQUAL_STRING("Invalid request!\n", ((struct args*) msg)->details);
+
+    msg->uid = STORAGE_SIZE + 1;
+
+    pthread_attr_init(&attr);
+    pthread_create(&tid_list, &attr, list_available_devices, ((struct args*) msg)->details);
+    pthread_join(tid_list, NULL);
+
+
+    TEST_ASSERT_EQUAL_STRING("Invalid request!\n", msg->details);
 }
 

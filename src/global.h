@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <strings.h>
+#include <pthread.h>
 
 #define PORT 8888
 
@@ -17,4 +19,8 @@
 #define REST_API_LENGTH 8 
 #define GET 0
 #define POST 1
+
+pthread_t tid_list, tid_add, tid_id, tid_get ;
+pthread_attr_t attr;
+pthread_mutex_t lock;
 

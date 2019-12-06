@@ -1,7 +1,7 @@
 #include <microhttpd.h>
 #include "global.h"
 #include "json_processor.h"
-
+#include "storage.h"
 
 // Structure that stores connection information for MHD
 struct connection_info_struct

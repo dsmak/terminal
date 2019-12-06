@@ -2,37 +2,35 @@
 :source:
   :path: test
   :file: test_storage.c
-:successes:
+:successes: []
+:failures:
+- :test: test_storage_get_device_details_should_ReturnError
+  :line: 136
+  :message: Expected 'Invalid request!\n' Was ' is empty\n'
+  :unity_test_time: 0
+:ignores:
 - :test: test_storage_get_available_id
-  :line: 42
-  :message: ''
+  :line: 38
+  :message: Done
   :unity_test_time: 0
 - :test: test_storage_add_device
-  :line: 53
-  :message: ''
+  :line: 68
+  :message: Done
   :unity_test_time: 0
-- :test: test_storage_add_device_failure
-  :line: 62
-  :message: ''
-  :unity_test_time: 0
-- :test: test_storage_get_device_details_should_ReturnError
-  :line: 93
-  :message: ''
-  :unity_test_time: 0
-:failures:
 - :test: test_storage_list_devices_should_ReturnError
-  :line: 75
-  :message: Expected 'List is empty' Was '0\n2\n0\n0\n'
+  :line: 90
+  :message: Done
   :unity_test_time: 0
 - :test: test_storage_list_devices_One_and_Many
-  :line: 84
-  :message: Expected '1\n' Was '5\n2\n0\n0\n5\n'
+  :line: 104
+  :message: Done
   :unity_test_time: 0
-:ignores: []
 :counts:
-  :total: 6
-  :passed: 4
-  :failed: 2
-  :ignored: 0
-:stdout: []
-:time: 0.0015285629997379147
+  :total: 5
+  :passed: 0
+  :failed: 1
+  :ignored: 4
+:stdout:
+- 'list_available_devices: Enter thread'
+- 'list_available_devices: Exit thread'
+:time: 1.0103083020003396

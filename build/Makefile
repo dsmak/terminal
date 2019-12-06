@@ -23,7 +23,7 @@ INCLUDE_C=-I. -I/usr/include
 ##########################################
 # C/C++ FLAGS
 ##########################################
-CFLAGS=-lmicrohttpd -ljson-c -std=c99
+CFLAGS=-lpthread -lmicrohttpd -ljson-c -std=c99
 
 build:	$(OBJS)
 	$(CC) -o $(EXE) $(OBJS) $(CFLAGS)
@@ -40,7 +40,7 @@ VPATH := $(SOURCE_DIRS)
 .SUFFIXES: .c .o .cpp 
 
 .c.o:
-	$(CC) $(CFLAGS)  -c -MD -w $(INCLUDE_C) $(JSINCLUDE) $(addprefix -I, $(SOURCE_DIRS)) $<
+	$(CC) $(CFLAGS)  -c -MD  $(INCLUDE_C) $(JSINCLUDE) $(addprefix -I, $(SOURCE_DIRS)) $<
 
 include $(wildcard *.d)
 

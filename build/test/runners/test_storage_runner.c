@@ -12,7 +12,6 @@ extern void setUp(void);
 extern void tearDown(void);
 extern void test_storage_get_available_id(void);
 extern void test_storage_add_device(void);
-extern void test_storage_add_device_failure(void);
 extern void test_storage_list_devices_should_ReturnError(void);
 extern void test_storage_list_devices_One_and_Many(void);
 extern void test_storage_get_device_details_should_ReturnError(void);
@@ -82,12 +81,11 @@ static void run_test(UnityTestFunction func, const char* name, int line_num)
 int main(void)
 {
   UnityBegin("test_storage.c");
-  run_test(test_storage_get_available_id, "test_storage_get_available_id", 42);
-  run_test(test_storage_add_device, "test_storage_add_device", 53);
-  run_test(test_storage_add_device_failure, "test_storage_add_device_failure", 62);
-  run_test(test_storage_list_devices_should_ReturnError, "test_storage_list_devices_should_ReturnError", 72);
-  run_test(test_storage_list_devices_One_and_Many, "test_storage_list_devices_One_and_Many", 80);
-  run_test(test_storage_get_device_details_should_ReturnError, "test_storage_get_device_details_should_ReturnError", 93);
+  run_test(test_storage_get_available_id, "test_storage_get_available_id", 36);
+  run_test(test_storage_add_device, "test_storage_add_device", 66);
+  run_test(test_storage_list_devices_should_ReturnError, "test_storage_list_devices_should_ReturnError", 88);
+  run_test(test_storage_list_devices_One_and_Many, "test_storage_list_devices_One_and_Many", 102);
+  run_test(test_storage_get_device_details_should_ReturnError, "test_storage_get_device_details_should_ReturnError", 125);
 
   return UnityEnd();
 }
