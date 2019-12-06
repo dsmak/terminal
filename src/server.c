@@ -5,7 +5,7 @@ static int send_details(struct MHD_Connection *connection, const char *terminal_
 {
     int ret;
     struct MHD_Response *response;
-    response = MHD_create_response_from_buffer (strlen(terminal_details),
+    response = MHD_create_response_from_buffer (strlen(terminal_details) +1 ,
                                                 (void*) terminal_details,
                                                 MHD_RESPMEM_PERSISTENT);
     if(!response)
@@ -134,7 +134,7 @@ static int answer_to_connection (void *cls, struct MHD_Connection *connection,
             pthread_attr_init(&attr);
             pthread_create(&tid_list, &attr, list_available_devices, list);
             pthread_join(tid_list, NULL);
-            printf("Server: %s\n", list);
+            //printf("Server: %s\n", list);
             terminal_id = send_details(connection, list);
         }
         else if (0 < terminal_id)
@@ -159,14 +159,16 @@ static int answer_to_connection (void *cls, struct MHD_Connection *connection,
                 return MHD_NO;
             }
         } else
-        {return MHD_NO;}
+        {
+          return MHD_NO;
+        }
         
         
     }
     // for second and following iterations of POST request 
     if (0 == strcmp (method, "POST"))
     {
-       printf("%s\n", "working on POST request");
+       //printf("%s\n", "working on POST request");
        if (!strncasecmp(url, REST_API_CALL, REST_API_LENGTH))
        {
 	 struct connection_info_struct *con_info = *con_cls;
@@ -186,7 +188,7 @@ static int answer_to_connection (void *cls, struct MHD_Connection *connection,
         pthread_attr_init(&attr);
         pthread_create(&tid_id, &attr, get_available_id, &uid); // gets available ID, from "storage.h"
         pthread_join(tid_id, NULL);
-        printf("%s %d\n", "Server: new id is: ", uid);
+        //printf("%s %d\n", "Server: new id is: ", uid);
 	char* details_with_id = attach_id(con_info->answer_string, uid); // attaches ID, from "json_processor.h"
         // get device details
 	struct args *msg = (struct args *)malloc(sizeof(struct args));
@@ -198,7 +200,7 @@ static int answer_to_connection (void *cls, struct MHD_Connection *connection,
         pthread_join(tid_add, NULL);
 
 	con_info->answer_string = details_with_id; // saving new details for response
-        printf("Server: \n%s\n", con_info->answer_string);
+        //printf("Server: \n%s\n", con_info->answer_string);
 	send_details(connection, con_info->answer_string);
         free(msg);
 
@@ -213,7 +215,7 @@ int main ()
 {
     struct MHD_Daemon *daemon;
     
-printf("%s\n", "Start server ");
+    printf("%s\n", "Start server ");
     
     daemon = MHD_start_daemon (MHD_USE_SELECT_INTERNALLY, PORT, NULL, NULL,
                                &answer_to_connection, NULL,

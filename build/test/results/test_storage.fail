@@ -5,7 +5,7 @@
 :successes: []
 :failures:
 - :test: test_storage_get_device_details_should_ReturnError
-  :line: 136
+  :line: 137
   :message: Expected 'Invalid request!\n' Was ' is empty\n'
   :unity_test_time: 0
 :ignores:
@@ -33,4 +33,4 @@
 :stdout:
 - 'list_available_devices: Enter thread'
 - 'list_available_devices: Exit thread'
-:time: 1.0103083020003396
+:time: 1.00298120700063

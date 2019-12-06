@@ -28,29 +28,33 @@ void *list_available_devices(void* list)
   pthread_exit(list);
 }
 
+
 void *get_device_details(void *deviceID_details)
 {
-  int uid = ((struct args*)deviceID_details)->uid; 
+  pthread_mutex_lock(&lock);
+  struct args* dev = ((struct args*)deviceID_details);
+  int uid = dev->uid; 
   //printf("Get device details: %d id\n", uid);
-  
-  char* answer = malloc(MAX_ANSWER_SIZE);
-  memset(answer,'\0',sizeof(answer)); 
+
+  void *get_device_details(void *deviceID_details)
+  memset(answer,'\0',MAX_ANSWER_SIZE); 
 
   if (uid <= 0 || uid > tail)
   {
-    sprintf(answer,"%s",
-             "Invalid request!\n");
+    strcpy(answer, "Invalid request!\n");
   }
   else
   {
-    pthread_mutex_lock(&lock);
+   
     strncpy(answer,
-             devices.details[uid - 1], strlen(devices.details[uid-1] + 1));
-    pthread_mutex_unlock(&lock);
+    devices.details[uid - 1], MAX_ANSWER_SIZE - 1);
   }
-  strncpy(((struct args *)deviceID_details)->details, answer, strlen(answer)+1);
-  free(answer);
-  pthread_exit((void*)deviceID_details);
+  memset(dev->details,'\0', MAX_ANSWER_SIZE);
+  strncpy(dev->details, answer, MAX_ANSWER_SIZE -1);
+//free(answer);
+  pthread_mutex_unlock(&lock);
+
+  pthread_exit((void*)dev);
 }
 
 void *add_device(void *deviceID_details)

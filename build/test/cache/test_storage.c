@@ -275,6 +275,8 @@ void test_storage_list_devices_One_and_Many(void)
 
 
 
+
+
 void test_storage_get_device_details_should_ReturnError(void)
 
 {
@@ -305,7 +307,7 @@ void test_storage_get_device_details_should_ReturnError(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(136));
+   ), (UNITY_UINT)(137));
 
 
 
@@ -329,7 +331,7 @@ void test_storage_get_device_details_should_ReturnError(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(144));
+   ), (UNITY_UINT)(145));
 
 
 
@@ -355,6 +357,6 @@ void test_storage_get_device_details_should_ReturnError(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(153));
+   ), (UNITY_UINT)(154));
 
 }

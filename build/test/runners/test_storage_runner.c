@@ -85,7 +85,7 @@ int main(void)
   run_test(test_storage_add_device, "test_storage_add_device", 66);
   run_test(test_storage_list_devices_should_ReturnError, "test_storage_list_devices_should_ReturnError", 88);
   run_test(test_storage_list_devices_One_and_Many, "test_storage_list_devices_One_and_Many", 102);
-  run_test(test_storage_get_device_details_should_ReturnError, "test_storage_get_device_details_should_ReturnError", 125);
+  run_test(test_storage_get_device_details_should_ReturnError, "test_storage_get_device_details_should_ReturnError", 126);
 
   return UnityEnd();
 }
